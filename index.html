@@ -161,7 +161,7 @@
     // Sayfa açıldığında gerçek toplamı çek
 window.onload = async function() {
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzA9ifGAXnYVKOn4bVPa7rWk_NtyGTlydbAPD4khdbMeShryvrBxi3V_xATNRTE9JPOww/exec");
+    const response = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/total");
     const data = await response.json();
     if (data.total) {
       total = data.total;
