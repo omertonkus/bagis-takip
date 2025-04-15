@@ -3,72 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Bağış Takip</title>
-  <style>
-    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
-    input, button { padding: 8px; margin: 5px 0; width: 100%; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #f0f0f0; }
-  </style>
 </head>
 <body>
-  <h1>Bağış Takip</h1>
-  <label>İsim:</label>
-  <input type="text" id="name">
-  <label>Bağış Miktarı (TL):</label>
-  <input type="number" id="amount">
-  <label>Tarih:</label>
-  <input type="date" id="date">
-  <button onclick="addDonation()">Gönder</button>
-
-  <h2>Bağışlar</h2>
-  <table id="donationTable">
-    <thead>
-      <tr><th>İsim</th><th>Miktar</th><th>Tarih</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <h3>Toplam: <span id="total">0</span> TL</h3>
-  <h3>Hedef: <input type="number" id="goal" value="1000000" onchange="renderTable()"> TL</h3>
-  <h3>Kalan: <span id="remaining">1000000</span> TL</h3>
+  <h1>Bağış Formu</h1>
+  <input type="text" id="name" placeholder="İsim"><br>
+  <input type="number" id="amount" placeholder="Bağış Miktarı (TL)"><br>
+  <input type="date" id="date"><br>
+  <button onclick="submitDonation()">Gönder</button>
 
   <script>
-    let donations = JSON.parse(localStorage.getItem("donations") || "[]");
-
-    function addDonation() {
+    async function submitDonation() {
       const name = document.getElementById("name").value;
-      const amount = parseFloat(document.getElementById("amount").value);
+      const amount = document.getElementById("amount").value;
       const date = document.getElementById("date").value;
 
-      if (name && amount && date) {
-        donations.push({ name, amount, date });
-        localStorage.setItem("donations", JSON.stringify(donations));
-        renderTable();
-        document.getElementById("name").value = "";
-        document.getElementById("amount").value = "";
-        document.getElementById("date").value = "";
-      }
-    }
-
-    function renderTable() {
-      const tbody = document.querySelector("#donationTable tbody");
-      tbody.innerHTML = "";
-      let total = 0;
-
-      donations.forEach(d => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${d.name}</td><td>${d.amount} TL</td><td>${d.date}</td>`;
-        tbody.appendChild(row);
-        total += d.amount;
+      const response = await fetch("https://script.google.com/macros/s/AKfycbw2hhBYTvWrLSyhmgn6wFUaWRNq2BF5fcnAIHmfpFS5EafanEIF75bP0A-S46HPW1jq/exec", {
+        method: "POST",
+        body: JSON.stringify({ name, amount, date }),
+        headers: { "Content-Type": "application/json" }
       });
 
-      document.getElementById("total").innerText = total;
-      const goal = parseFloat(document.getElementById("goal").value);
-      document.getElementById("remaining").innerText = Math.max(goal - total, 0);
+      if (response.ok) {
+        alert("Bağış kaydedildi!");
+        location.reload();
+      } else {
+        alert("Hata oluştu!");
+      }
     }
-
-    renderTable();
   </script>
 </body>
 </html>
