@@ -77,11 +77,23 @@
   <h1>Bağış Formu</h1>
 
   <div class="form-container">
-    <input type="text" id="name" placeholder="İsim girin">
-    <input type="number" id="amount" placeholder="Bağış Miktarı (TL)">
-    <input type="date" id="date">
-    <button onclick="submitDonation()">Gönder</button>
+  <input type="text" id="name" placeholder="İsim girin">
+  <input type="number" id="amount" placeholder="Bağış Miktarı (TL)">
+  <input type="date" id="date">
+  <button onclick="submitDonation()">Gönder</button>
+
+  <!-- 🔄 Yükleme animasyonu buraya -->
+  <div id="loader" style="display: none; text-align: center; margin-top: 10px;">
+    <svg width="36" height="36" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="35" stroke="#27ae60" stroke-width="10" fill="none"
+              stroke-dasharray="164.93361431346415 56.97787143782138">
+        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite"
+                          dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"/>
+      </circle>
+    </svg>
   </div>
+</div>
+
 
   <div class="progress-container">
     <div id="progressBar" class="progress-bar">0%</div>
