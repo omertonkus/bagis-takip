@@ -12,24 +12,31 @@
   <button onclick="submitDonation()">Gönder</button>
 
   <script>
-    async function submitDonation() {
-      const name = document.getElementById("name").value;
-      const amount = document.getElementById("amount").value;
-      const date = document.getElementById("date").value;
+  async function submitDonation() {
+    const name = document.getElementById("name").value;
+    const amount = document.getElementById("amount").value;
+    const date = document.getElementById("date").value;
 
-      const response = await fetch("https://script.google.com/macros/s/AKfycby0BwJhrBzOTAQaNIUhOMZUB8rZrkj2rZfIN75L77pV2R8BIBSVVvSIj5g06RXUL2Ro7Q/exec", {
+    if (!name || !amount || !date) {
+      alert("Lütfen tüm alanları doldurun.");
+      return;
+    }
+
+    try {
+      const response = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
         method: "POST",
-        body: JSON.stringify({ name, amount, date }),
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, amount, date })
       });
 
-      if (response.ok) {
-        alert("Bağış kaydedildi!");
-        location.reload();
-      } else {
-        alert("Hata oluştu!");
-      }
+      const result = await response.json();
+      alert("Bağış kaydedildi ✅");
+    } catch (error) {
+      console.error("Hata:", error);
+      alert("Bağış gönderilemedi 🚫");
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
