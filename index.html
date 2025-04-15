@@ -161,8 +161,16 @@
 
     async function toggleGraph() {
       const container = document.getElementById("chartContainer");
-      container.style.display = container.style.display === "none" ? "block" : "none";
-      await drawChart();
+      if (container.style.display === "none") {
+        container.style.display = "block";
+        await drawChart();
+      } else {
+        container.style.display = "none";
+        if (donationChart) {
+          donationChart.destroy();
+          donationChart = null;
+        }
+      }
     }
 
     async function drawChart() {
@@ -173,8 +181,6 @@
 
         const labels = Object.keys(groupedData);
         const values = Object.values(groupedData);
-
-        if (donationChart) donationChart.destroy();
 
         const ctx = document.getElementById("donationChart").getContext("2d");
         donationChart = new Chart(ctx, {
