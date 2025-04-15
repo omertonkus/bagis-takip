@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bağış Grafiği</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f2f4f8;
+      color: #2c3e50;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .chart-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+    canvas {
+      max-width: 100%;
+      height: 400px !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>Günlük Bağış Grafiği</h1>
+  <div class="chart-container">
+    <canvas id="donationChart"></canvas>
+  </div>
+
+  <script>
+    async function drawChart() {
+      try {
+        const response = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/total");
+        const data = await response.json();
+
+        const labels = Object.keys(data);
+        const values = Object.values(data);
+
+        const ctx = document.getElementById('donationChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Günlük Bağışlar (TL)',
+              data: values,
+              backgroundColor: '#27ae60',
+              borderRadius: 5
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              x: {
+                ticks: {
+                  maxRotation: 45,
+                  minRotation: 45,
+                  autoSkip: false
+                }
+              },
+              y: {
+                beginAtZero: true
+              }
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  font: {
+                    size: 14
+                  }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: (context) => `${context.parsed.y.toLocaleString()} TL`
+                }
+              }
+            }
+          }
+        });
+      } catch (error) {
+        console.error("Grafik verisi alınamadı:", error);
+      }
+    }
+
+    drawChart();
+  </script>
+</body>
+</html>
