@@ -71,29 +71,34 @@
       font-size: 14px;
       color: #333;
     }
+
+    #loader {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <h1>Bağış Formu</h1>
 
   <div class="form-container">
-  <input type="text" id="name" placeholder="İsim girin">
-  <input type="number" id="amount" placeholder="Bağış Miktarı (TL)">
-  <input type="date" id="date">
-  <button onclick="submitDonation()">Gönder</button>
+    <input type="text" id="name" placeholder="İsim girin">
+    <input type="number" id="amount" placeholder="Bağış Miktarı (TL)">
+    <input type="date" id="date">
+    <button onclick="submitDonation()">Gönder</button>
 
-  <!-- 🔄 Yükleme animasyonu buraya -->
-  <div id="loader" style="display: none; text-align: center; margin-top: 10px;">
-    <svg width="36" height="36" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="35" stroke="#27ae60" stroke-width="10" fill="none"
-              stroke-dasharray="164.93361431346415 56.97787143782138">
-        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite"
-                          dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"/>
-      </circle>
-    </svg>
+    <!-- Yükleme animasyonu -->
+    <div id="loader">
+      <svg width="36" height="36" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="35" stroke="#27ae60" stroke-width="10" fill="none"
+                stroke-dasharray="164.93361431346415 56.97787143782138">
+          <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite"
+                            dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"/>
+        </circle>
+      </svg>
+    </div>
   </div>
-</div>
-
 
   <div class="progress-container">
     <div id="progressBar" class="progress-bar">0%</div>
@@ -105,45 +110,41 @@
     const goal = 1000000;
 
     async function submitDonation() {
-  const name = document.getElementById("name").value;
-  const amount = parseFloat(document.getElementById("amount").value);
-  const date = document.getElementById("date").value;
-  const button = document.querySelector("button");
-  const loader = document.getElementById("loader");
+      const name = document.getElementById("name").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      const date = document.getElementById("date").value;
+      const button = document.querySelector("button");
+      const loader = document.getElementById("loader");
 
-  if (!name || !amount || !date) {
-    alert("Lütfen tüm alanları doldurun.");
-    return;
-  }
+      if (!name || !amount || !date) {
+        alert("Lütfen tüm alanları doldurun.");
+        return;
+      }
 
-  // 🟢 Başlat: Butonu devre dışı bırak, yükleme göster
-  button.disabled = true;
-  button.textContent = "Gönderiliyor...";
-  loader.style.display = "block";
+      button.disabled = true;
+      button.textContent = "Gönderiliyor...";
+      loader.style.display = "block";
 
-  try {
-    await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, amount, date })
-    });
+      try {
+        await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, amount, date })
+        });
 
-    alert("Bağış kaydedildi ✅");
-
-    total += amount;
-    updateProgress();
-    clearForm();
-  } catch (error) {
-    console.error("Hata:", error);
-    alert("Bağış gönderilemedi ❌");
-  } finally {
-    // 🔴 Bitir: Butonu eski haline getir, yüklemeyi gizle
-    button.disabled = false;
-    button.textContent = "Gönder";
-    loader.style.display = "none";
-  }
-}
-
+        alert("Bağış kaydedildi ✅");
+        total += amount;
+        updateProgress();
+        clearForm();
+      } catch (error) {
+        console.error("Hata:", error);
+        alert("Bağış gönderilemedi ❌");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Gönder";
+        loader.style.display = "none";
+      }
+    }
 
     function updateProgress() {
       const percent = Math.min((total / goal) * 100, 100).toFixed(1);
@@ -158,20 +159,19 @@
       document.getElementById("date").value = "";
     }
 
-    // Sayfa açıldığında gerçek toplamı çek
-window.onload = async function() {
-  try {
-    const response = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/total");
-    const data = await response.json();
-    if (data.total) {
-      total = data.total;
-      updateProgress();
+    // Sayfa açıldığında Sheets’ten toplamı çek
+    window.onload = async function() {
+      try {
+        const response = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/total");
+        const data = await response.json();
+        if (data.total) {
+          total = data.total;
+          updateProgress();
+        }
+      } catch (error) {
+        console.error("Toplam bağış alınamadı:", error);
+      }
     }
-  } catch (error) {
-    console.error("Toplam bağış alınamadı:", error);
-  }
-}
-
   </script>
 </body>
 </html>
