@@ -102,6 +102,7 @@
   <script>
     let total = 0;
     const goal = 1000000;
+    const API_KEY = "benim-gizli-anahtarım";
 
     async function submitDonation() {
       const name = document.getElementById("name").value.trim();
@@ -121,7 +122,10 @@
       try {
         await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${API_KEY}`
+          },
           body: JSON.stringify({ name, amount })
         });
 
