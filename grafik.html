@@ -42,16 +42,22 @@
         const response = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/total");
         const data = await response.json();
 
-        const labels = Object.keys(data).map(tarih => {
-  const date = new Date(tarih);
-  return date.toLocaleDateString("tr-TR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric"
-  });
-});
+        // 1️⃣ Günlük olarak gruplama işlemi
+        const grouped = {};
+        Object.entries(data).forEach(([datetime, amount]) => {
+          const date = new Date(datetime);
+          const key = date.toLocaleDateString("tr-TR", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric"
+          }); // örn: 15 Nisan 2025
 
-        const values = Object.values(data);
+          grouped[key] = (grouped[key] || 0) + amount;
+        });
+
+        // 2️⃣ Grafik etiketleri ve değerleri
+        const labels = Object.keys(grouped);
+        const values = Object.values(grouped);
 
         const ctx = document.getElementById('donationChart').getContext('2d');
         new Chart(ctx, {
@@ -70,9 +76,9 @@
             scales: {
               x: {
                 ticks: {
+                  autoSkip: false,
                   maxRotation: 45,
-                  minRotation: 45,
-                  autoSkip: false
+                  minRotation: 45
                 }
               },
               y: {
@@ -80,21 +86,15 @@
               }
             },
             plugins: {
-              legend: {
-                labels: {
-                  font: {
-                    size: 14
-                  }
-                }
-              },
               tooltip: {
                 callbacks: {
-                  label: (context) => `${context.parsed.y.toLocaleString()} TL`
+                  label: context => `${context.parsed.y.toLocaleString()} TL`
                 }
               }
             }
           }
         });
+
       } catch (error) {
         console.error("Grafik verisi alınamadı:", error);
       }
