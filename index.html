@@ -105,32 +105,45 @@
     const goal = 1000000;
 
     async function submitDonation() {
-      const name = document.getElementById("name").value;
-      const amount = parseFloat(document.getElementById("amount").value);
-      const date = document.getElementById("date").value;
+  const name = document.getElementById("name").value;
+  const amount = parseFloat(document.getElementById("amount").value);
+  const date = document.getElementById("date").value;
+  const button = document.querySelector("button");
+  const loader = document.getElementById("loader");
 
-      if (!name || !amount || !date) {
-        alert("Lütfen tüm alanları doldurun.");
-        return;
-      }
+  if (!name || !amount || !date) {
+    alert("Lütfen tüm alanları doldurun.");
+    return;
+  }
 
-      try {
-        await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, amount, date })
-        });
+  // 🟢 Başlat: Butonu devre dışı bırak, yükleme göster
+  button.disabled = true;
+  button.textContent = "Gönderiliyor...";
+  loader.style.display = "block";
 
-        alert("Bağış kaydedildi ✅");
+  try {
+    await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, amount, date })
+    });
 
-        total += amount;
-        updateProgress();
-        clearForm();
-      } catch (error) {
-        console.error("Hata:", error);
-        alert("Bağış gönderilemedi ❌");
-      }
-    }
+    alert("Bağış kaydedildi ✅");
+
+    total += amount;
+    updateProgress();
+    clearForm();
+  } catch (error) {
+    console.error("Hata:", error);
+    alert("Bağış gönderilemedi ❌");
+  } finally {
+    // 🔴 Bitir: Butonu eski haline getir, yüklemeyi gizle
+    button.disabled = false;
+    button.textContent = "Gönder";
+    loader.style.display = "none";
+  }
+}
+
 
     function updateProgress() {
       const percent = Math.min((total / goal) * 100, 100).toFixed(1);
