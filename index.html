@@ -148,17 +148,14 @@
   <button class="graph-button" onclick="window.open('grafik.html', '_blank')">📈 Bağış Grafiğini Göster</button>
 
   <script>
-    const SHEET_URL = "https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev";
-
     window.onload = async () => {
       const connectionText = document.getElementById("connectionText");
       const connectionDot = document.querySelector(".dot-animation");
 
       try {
-        const res = await fetch(`${SHEET_URL}/total`);
+        const res = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/total");
         let data = await res.text();
 
-        // Eğer JSON string ise parse et
         try {
           data = JSON.parse(data);
         } catch {
@@ -202,7 +199,7 @@
       }
 
       try {
-        const res = await fetch(`${SHEET_URL}/donate`, {
+        const res = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, amount })
