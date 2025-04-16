@@ -152,7 +152,7 @@
 
       const res = await fetch(`${sheetUrl}/donate`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer my-secret-key-123" },
         body: JSON.stringify({ name, amount: parseFloat(amount), date: new Date().toISOString() })
       });
 
