@@ -17,13 +17,32 @@
       justify-content: center;
       min-height: 100vh;
     }
-    h1 { color: #2c3e50; margin-bottom: 10px; }
+    h1 {
+      color: #2c3e50;
+      margin-top: 30px;
+      margin-bottom: 5px;
+    }
+    #connectionStatus {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .dot-animation::after {
+      content: "";
+      animation: dots 1.2s steps(3, end) infinite;
+    }
+    @keyframes dots {
+      0% { content: ""; }
+      33% { content: "."; }
+      66% { content: ".."; }
+      100% { content: "..."; }
+    }
     .form-container {
       background: white;
       padding: 30px;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      width: 100%; max-width: 400px;
+      width: 100%;
+      max-width: 400px;
       text-align: center;
     }
     input, button {
@@ -32,26 +51,43 @@
       border: 1px solid #ccc; font-size: 16px;
     }
     input:focus {
-      outline: none; border-color: #27ae60;
+      outline: none;
+      border-color: #27ae60;
       box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
     }
     button {
-      background-color: #27ae60; color: white; border: none;
-      font-weight: bold; cursor: pointer;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
       transition: background 0.3s ease;
     }
-    button:hover { background-color: #1f8e4d; }
+    button:hover {
+      background-color: #1f8e4d;
+    }
     .progress-container {
-      width: 100%; background: #e0e0e0;
-      border-radius: 10px; margin-top: 20px; overflow: hidden;
+      width: 100%;
+      background: #e0e0e0;
+      border-radius: 10px;
+      margin-top: 20px;
+      overflow: hidden;
     }
     .progress-bar {
-      height: 30px; background: #27ae60; color: black;
-      font-weight: bold; line-height: 30px;
-      text-align: center; width: 0%; transition: width 0.6s ease;
+      height: 30px;
+      background: #27ae60;
+      color: black;
+      font-weight: bold;
+      line-height: 30px;
+      text-align: center;
+      width: 0%;
+      transition: width 0.6s ease;
     }
     .status-text {
-      text-align: center; margin-top: 10px; font-size: 14px; color: #2c3e50;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #2c3e50;
     }
     .iban-box {
       margin-top: 20px;
@@ -72,30 +108,17 @@
       background: #27ae60;
     }
     .graph-button {
-      margin-top: 30px;
+      margin: 30px auto;
       background: #2c3e50;
       color: white;
       padding: 10px 20px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      display: block;
     }
     .graph-button:hover {
       background-color: #1f2f40;
-    }
-    #connectionStatus {
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-    .dot-animation::after {
-      content: "";
-      animation: dots 1.2s steps(3, end) infinite;
-    }
-    @keyframes dots {
-      0% { content: ""; }
-      33% { content: "."; }
-      66% { content: ".."; }
-      100% { content: "..."; }
     }
   </style>
 </head>
@@ -130,16 +153,24 @@
     window.onload = async () => {
       const connectionText = document.getElementById("connectionText");
       const connectionDot = document.querySelector(".dot-animation");
+
       try {
         const res = await fetch(`${SHEET_URL}/total`);
-        const json = await res.json();
-        let parsed = json;
-        if (typeof json === "string") parsed = JSON.parse(json);
-        else if (json.response) parsed = JSON.parse(json.response);
+        let data = await res.text();
 
-        const total = parsed.total || 0;
+        // Eğer JSON string ise parse et
+        try {
+          data = JSON.parse(data);
+        } catch {
+          if (data.response) {
+            data = JSON.parse(data.response);
+          }
+        }
+
+        const total = data.total || 0;
         const goal = 1000000;
         const percentage = ((total / goal) * 100).toFixed(1);
+
         const bar = document.getElementById("progressBar");
         const statusText = document.getElementById("statusText");
 
