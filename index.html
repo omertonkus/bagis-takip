@@ -70,6 +70,16 @@
       font-weight: bold;
       color: #2c3e50;
     }
+    @keyframes dots {
+      0%   { content: ""; }
+      33%  { content: "."; }
+      66%  { content: ".."; }
+      100% { content: "..."; }
+    }
+    .dot-animation::after {
+      content: "";
+      animation: dots 1.2s steps(3, end) infinite;
+    }
     @media (max-width: 768px) {
       body { flex-direction: column; }
       .right-side { display: none; }
@@ -80,7 +90,7 @@
 <body>
   <div class="left-side">
     <h1>Bağış Formu</h1>
-    <div id="connectionStatus">Bağlantı kontrol ediliyor...</div>
+    <div id="connectionStatus" class="dot-animation">Bağlantı kontrol ediliyor</div>
     <div class="form-container">
       <input type="text" id="name" placeholder="İsim girin" />
       <input type="number" id="amount" placeholder="Bağış Miktarı (TL)" />
@@ -102,9 +112,9 @@
     </div>
   </div>
   <div class="right-side">
-    <img src="refik.jpeg" alt="Bağış Arka Planı">
+    <img src="iban.jpeg" alt="Bağış Arka Planı">
   </div>
-  <script>
+
     let total = 0;
     const goal = 1000000;
     const API_KEY = "my-secret-key-123";
