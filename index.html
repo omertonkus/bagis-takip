@@ -142,29 +142,48 @@
     const sheetUrl = "https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev";
 
     async function submitDonation() {
-      const name = document.getElementById("name").value.trim();
-      const amount = document.getElementById("amount").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const amount = document.getElementById("amount").value.trim();
+  const button = document.querySelector("button");
 
-      if (!name || !amount) {
-        alert("Lütfen tüm alanları doldurun.");
-        return;
-      }
+  if (!name || !amount) {
+    alert("Lütfen tüm alanları doldurun.");
+    return;
+  }
 
-      const res = await fetch(`${sheetUrl}/donate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": "Bearer my-secret-key-123" },
-        body: JSON.stringify({ name, amount: parseFloat(amount), date: new Date().toISOString() })
-      });
+  button.disabled = true;
+  button.textContent = "Gönderiliyor...";
 
-      if (res.ok) {
-        alert("Bağış kaydedildi!");
-        document.getElementById("name").value = "";
-        document.getElementById("amount").value = "";
-        updateProgress();
-      } else {
-        alert("Bağış gönderilemedi.");
-      }
+  try {
+    const res = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer my-secret-key-123"
+      },
+      body: JSON.stringify({
+        name,
+        amount: parseFloat(amount),
+        date: new Date().toISOString()
+      })
+    });
+
+    if (res.ok) {
+      alert("✅ Bağışınız kaydedildi, teşekkür ederiz!");
+      document.getElementById("name").value = "";
+      document.getElementById("amount").value = "";
+      updateProgress();
+    } else {
+      alert("❌ Bağış gönderilemedi.");
     }
+  } catch (e) {
+    alert("⚠️ Bağlantı hatası: " + e.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Gönder";
+  }
+}
+
 
     async function updateProgress() {
       try {
