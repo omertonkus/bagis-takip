@@ -120,6 +120,21 @@
     .copy-button:hover {
       background: #1e874f;
     }
+
+    .graph-button {
+      margin-top: 30px;
+      background: #2c3e50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .graph-button:hover {
+      background: #1c2c3b;
+    }
   </style>
 </head>
 <body>
@@ -149,6 +164,10 @@
     </div>
   </div>
 
+  <button class="graph-button" onclick="window.open('grafik.html', '_blank')">
+    📈 Bağış Grafiğini Göster
+  </button>
+
   <script>
     let total = 0;
     const goal = 1000000;
@@ -162,7 +181,7 @@
       }
 
       try {
-        await fetch("https://your-endpoint-url/donate", {
+        await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, amount })
@@ -192,7 +211,7 @@
 
     async function checkConnection() {
       try {
-        const res = await fetch("https://your-endpoint-url/total");
+        const res = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/total");
         if (res.ok) {
           document.getElementById("connectionText").textContent = "✅ Veri girişi yapılabilir.";
           document.querySelector(".dot-animation").style.display = "none";
