@@ -25,45 +25,78 @@
       background: #f8f8f8;
       padding: 40px 20px;
     }
-    .right-side { background: #000; }
-    .right-side img {
-      width: 100%; height: 100%; object-fit: cover;
+    .right-side {
+      background: #000;
     }
-    h1 { color: #2c3e50; margin-bottom: 20px; }
+    .right-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
     .form-container {
       background: rgba(255, 255, 255, 0.95);
       padding: 30px;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      width: 100%; max-width: 400px;
+      width: 100%;
+      max-width: 400px;
     }
     input, button {
-      width: 100%; padding: 14px; margin: 10px 0;
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
       border-radius: 10px;
-      border: 1px solid #ccc; font-size: 16px;
+      border: 1px solid #ccc;
+      font-size: 16px;
     }
     input:focus {
-      outline: none; border-color: #27ae60;
+      outline: none;
+      border-color: #27ae60;
       box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
     }
     button {
-      background-color: #27ae60; color: white; border: none;
-      font-weight: bold; cursor: pointer;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
       transition: background 0.3s ease;
     }
-    button:hover { background-color: #1f8e4d; }
-    #loader { display: none; text-align: center; margin-top: 10px; }
+    button:hover {
+      background-color: #1f8e4d;
+    }
+    #loader {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
     .progress-container {
-      width: 100%; max-width: 400px; background: #e0e0e0;
-      border-radius: 10px; margin-top: 30px; overflow: hidden;
+      width: 100%;
+      max-width: 400px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      margin-top: 30px;
+      overflow: hidden;
     }
     .progress-bar {
-      height: 30px; background: #27ae60; color: white;
-      font-weight: bold; line-height: 30px;
-      text-align: center; width: 0%; transition: width 0.6s ease;
+      height: 30px;
+      background: #27ae60;
+      color: white;
+      font-weight: bold;
+      line-height: 30px;
+      text-align: center;
+      width: 0%;
+      transition: width 0.6s ease;
     }
     .status-text {
-      text-align: center; margin-top: 10px; font-size: 14px; color: #2c3e50;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #2c3e50;
     }
     #connectionStatus {
       margin-bottom: 10px;
@@ -112,9 +145,10 @@
     </div>
   </div>
   <div class="right-side">
-    <img src="iban.jpeg" alt="Bağış Arka Planı">
+    <img src="refik.jpeg" alt="Bağış Arka Planı">
   </div>
 
+  <script>
     let total = 0;
     const goal = 1000000;
     const API_KEY = "my-secret-key-123";
