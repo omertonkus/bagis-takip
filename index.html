@@ -35,11 +35,14 @@
 
     }
     .right-side img {
-      width: auto;
-      height: 90%;
-      max-width: 90%;
-      object-fit: contain;
-    }
+  max-width: 80%;
+  max-height: 85%;
+  object-fit: contain;
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-radius: 12px;
+}
+
     h1 { color: #2c3e50; margin-bottom: 20px; }
     .form-container {
       background: rgba(255, 255, 255, 0.95);
@@ -69,10 +72,17 @@
       border-radius: 10px; margin-top: 30px; overflow: hidden;
     }
     .progress-bar {
-      height: 30px; background: #27ae60; color: white;
-      font-weight: bold; line-height: 30px;
-      text-align: center; width: 0%; transition: width 0.6s ease;
-    }
+  height: 30px;
+  background: #27ae60;
+  color: #000; /* Yazı rengi siyah */
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.6s ease;
+}
+
     .status-text {
       text-align: center; margin-top: 10px; font-size: 14px; color: #2c3e50;
     }
