@@ -13,6 +13,7 @@
       display: flex;
       flex-direction: row;
       height: 100vh;
+      background: #f8f8f8;
     }
     .left-side, .right-side {
       flex: 1;
@@ -22,27 +23,23 @@
     }
     .left-side {
       flex-direction: column;
-      background: #f8f8f8;
       padding: 40px 20px;
     }
     .right-side {
-  background: #f8f8f8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
+      background: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
     .right-side img {
-  max-width: 80%;
-  max-height: 85%;
-  object-fit: contain;
-  background-color: #f8f8f8;
-  padding: 10px;
-  border-radius: 12px;
-}
-
+      max-width: 75%;
+      max-height: 90%;
+      object-fit: contain;
+      background-color: #f8f8f8;
+      padding: 10px;
+      border-radius: 12px;
+    }
     h1 { color: #2c3e50; margin-bottom: 20px; }
     .form-container {
       background: rgba(255, 255, 255, 0.95);
@@ -67,21 +64,26 @@
     }
     button:hover { background-color: #1f8e4d; }
     #loader { display: none; text-align: center; margin-top: 10px; }
+
     .progress-container {
       width: 100%; max-width: 400px; background: #e0e0e0;
       border-radius: 10px; margin-top: 30px; overflow: hidden;
     }
     .progress-bar {
-  height: 30px;
-  background: #27ae60;
-  color: #000; /* Yazı rengi siyah */
-  font-weight: bold;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: width 0.6s ease;
-}
+      position: relative;
+      height: 30px;
+      background: #27ae60;
+      transition: width 0.6s ease;
+    }
+    #progressLabel {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #000;
+      font-weight: bold;
+      line-height: 30px;
+    }
 
     .status-text {
       text-align: center; margin-top: 10px; font-size: 14px; color: #2c3e50;
@@ -128,13 +130,16 @@
       </div>
     </div>
     <div class="progress-container">
-      <div id="progressBar" class="progress-bar">0%</div>
+      <div id="progressBar" class="progress-bar">
+        <span id="progressLabel">0%</span>
+      </div>
     </div>
     <div class="status-text" id="statusText">Toplam: 0 TL / Hedef: 1.000.000 TL</div>
     <div style="margin-top: 40px;">
       <button onclick="window.open('grafik.html', '_blank')" style="background:#2c3e50; color:white; padding:10px 20px; border:none; border-radius:8px;">📈 Bağış Grafiğini Göster</button>
     </div>
   </div>
+
   <div class="right-side">
     <img src="iban.jpeg" alt="Bağış Arka Planı">
   </div>
@@ -186,7 +191,7 @@
     function updateProgress() {
       const percent = Math.min((total / goal) * 100, 100).toFixed(1);
       document.getElementById("progressBar").style.width = percent + "%";
-      document.getElementById("progressBar").textContent = percent + "%";
+      document.getElementById("progressLabel").textContent = percent + "%";
       document.getElementById("statusText").textContent = `Toplam: ${total.toLocaleString()} TL / Hedef: ${goal.toLocaleString()} TL`;
     }
 
