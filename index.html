@@ -46,28 +46,42 @@
       width: 100%; max-width: 400px;
     }
 
-    input, button {
-      width: 100%; padding: 14px; margin: 10px 0;
+    .form-container input,
+    .form-container button {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
       border-radius: 10px;
-      border: 1px solid #ccc; font-size: 16px;
+      border: 1px solid #ccc;
+      font-size: 16px;
     }
 
-    input:focus {
-      outline: none; border-color: #27ae60;
+    .form-container input:focus {
+      outline: none;
+      border-color: #27ae60;
       box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
     }
 
-    button {
-      background-color: #27ae60; color: white; border: none;
-      font-weight: bold; cursor: pointer;
+    .form-container button {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
       transition: background 0.3s ease;
     }
 
-    button:hover { background-color: #1f8e4d; }
+    .form-container button:hover {
+      background-color: #1f8e4d;
+    }
 
     .progress-container {
-      width: 100%; max-width: 400px; background: #e0e0e0;
-      border-radius: 10px; margin-top: 30px; overflow: hidden;
+      width: 100%;
+      max-width: 400px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      margin-top: 30px;
+      overflow: hidden;
     }
 
     .progress-bar {
@@ -88,7 +102,10 @@
     }
 
     .status-text {
-      text-align: center; margin-top: 10px; font-size: 14px; color: #2c3e50;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #2c3e50;
     }
 
     .iban-box {
@@ -130,6 +147,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
+      width: auto;
     }
 
     .graph-button:hover {
