@@ -2,160 +2,123 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bağış Takip</title>
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
       background: #f8f8f8;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
     }
-
-    h1 { color: #2c3e50; margin-bottom: 10px; }
-
-    #connectionStatus {
-      font-weight: bold;
+    h1 {
+      margin-bottom: 10px;
       color: #2c3e50;
-      margin-bottom: 20px;
     }
-
-    .dot-animation::after {
-      content: "";
-      animation: dots 1.2s steps(3, end) infinite;
-    }
-
-    @keyframes dots {
-      0% { content: ""; }
-      33% { content: "."; }
-      66% { content: ".."; }
-      100% { content: "..."; }
-    }
-
     .form-container {
       background: white;
       padding: 30px;
       border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      width: 100%; max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
     }
-
-    .form-container input,
-    .form-container button {
+    input, button {
       width: 100%;
       padding: 14px;
       margin: 10px 0;
-      border-radius: 10px;
-      border: 1px solid #ccc;
       font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
-
-    .form-container input:focus {
-      outline: none;
-      border-color: #27ae60;
-      box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
-    }
-
-    .form-container button {
+    button {
       background-color: #27ae60;
       color: white;
-      border: none;
       font-weight: bold;
+      border: none;
       cursor: pointer;
-      transition: background 0.3s ease;
     }
-
-    .form-container button:hover {
+    button:hover {
       background-color: #1f8e4d;
     }
-
     .progress-container {
       width: 100%;
-      max-width: 400px;
       background: #e0e0e0;
       border-radius: 10px;
-      margin-top: 30px;
       overflow: hidden;
-    }
-
-    .progress-bar {
-      position: relative;
-      height: 30px;
-      background: #27ae60;
-      transition: width 0.6s ease;
-    }
-
-    #progressLabel {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #000;
-      font-weight: bold;
-      line-height: 30px;
-    }
-
-    .status-text {
-      text-align: center;
       margin-top: 10px;
+    }
+    .progress-bar {
+      height: 30px;
+      background-color: #27ae60;
+      color: black;
+      text-align: center;
+      line-height: 30px;
+      font-weight: bold;
+      transition: width 0.5s ease;
+    }
+    .status-text {
       font-size: 14px;
+      margin-top: 6px;
       color: #2c3e50;
     }
-
     .iban-box {
-      margin-top: 30px;
-      text-align: center;
-    }
-
-    .iban-copy-container {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      margin-top: 20px;
+      padding: 10px;
       background: #fff;
-      border: 1px solid #ccc;
-      padding: 8px 12px;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
     }
-
-    .copy-button {
+    .copy-btn {
       background: #27ae60;
       color: white;
       border: none;
-      padding: 6px 12px;
       border-radius: 6px;
+      padding: 6px 10px;
       cursor: pointer;
-      font-size: 14px;
     }
-
-    .copy-button:hover {
-      background: #1e874f;
+    .copy-btn:hover {
+      background: #1f8e4d;
     }
-
-    .graph-button {
+    .footer {
       margin-top: 30px;
+      text-align: center;
+    }
+    .footer button {
+      padding: 10px 16px;
       background: #2c3e50;
       color: white;
-      padding: 10px 20px;
-      border: none;
       border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      width: auto;
+      font-size: 14px;
     }
-
-    .graph-button:hover {
-      background: #1c2c3b;
+    #connectionStatus {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    @keyframes dots {
+      0%   { content: ""; }
+      33%  { content: "."; }
+      66%  { content: ".."; }
+      100% { content: "..."; }
+    }
+    .dot-animation::after {
+      content: "";
+      animation: dots 1.2s steps(3, end) infinite;
     }
   </style>
 </head>
 <body>
+
   <h1>Bağış Formu</h1>
   <div id="connectionStatus">
     <span id="connectionText">Bağlantı kontrol ediliyor</span>
@@ -168,71 +131,42 @@
     <button onclick="submitDonation()">Gönder</button>
 
     <div class="progress-container">
-      <div id="progressBar" class="progress-bar">
-        <span id="progressLabel">0%</span>
-      </div>
+      <div class="progress-bar" id="progressBar">0%</div>
     </div>
     <div class="status-text" id="statusText">Toplam: 0 TL / Hedef: 1.000.000 TL</div>
-  </div>
 
-  <div class="iban-box">
-    <div class="iban-copy-container">
-      <span id="ibanText">TR590001000488975069615014</span>
-      <button class="copy-button" onclick="copyIban()">Kopyala</button>
+    <div class="iban-box">
+      <span id="iban">TR59001000488975069615014</span>
+      <button class="copy-btn" onclick="copyIBAN()">Kopyala</button>
     </div>
   </div>
 
-  <button class="graph-button" onclick="window.open('grafik.html', '_blank')">
-    📈 Bağış Grafiğini Göster
-  </button>
+  <div class="footer">
+    <button onclick="window.open('grafik.html', '_blank')">📈 Bağış Grafiğini Göster</button>
+  </div>
 
   <script>
     let total = 0;
     const goal = 1000000;
 
-    async function submitDonation() {
-      const name = document.getElementById("name").value.trim();
-      const amount = parseFloat(document.getElementById("amount").value);
-      if (!name || isNaN(amount)) {
-        alert("Lütfen geçerli bilgiler girin.");
-        return;
-      }
-
-      try {
-        await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, amount })
-        });
-
-        alert("Bağış kaydedildi ✅");
-        total += amount;
-        updateProgress();
-      } catch (err) {
-        alert("Bağış gönderilemedi ❌");
-      }
-    }
-
     function updateProgress() {
       const percent = Math.min((total / goal) * 100, 100).toFixed(1);
-      document.getElementById("progressBar").style.width = percent + "%";
-      document.getElementById("progressLabel").textContent = percent + "%";
-      document.getElementById("statusText").textContent = `Toplam: ${total.toLocaleString()} TL / Hedef: ${goal.toLocaleString()} TL`;
-    }
-
-    function copyIban() {
-      const iban = document.getElementById("ibanText").textContent;
-      navigator.clipboard.writeText(iban).then(() => {
-        alert("IBAN kopyalandı 📋");
-      });
+      const progressBar = document.getElementById("progressBar");
+      progressBar.style.width = percent + "%";
+      progressBar.textContent = percent + "%";
+      document.getElementById("statusText").textContent =
+        `Toplam: ${total.toLocaleString()} TL / Hedef: ${goal.toLocaleString()} TL`;
     }
 
     async function checkConnection() {
       try {
         const res = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/total");
+        const data = await res.json();
         if (res.ok) {
           document.getElementById("connectionText").textContent = "✅ Veri girişi yapılabilir.";
           document.querySelector(".dot-animation").style.display = "none";
+          total = data.total || 0;
+          updateProgress();
         } else {
           throw new Error();
         }
@@ -242,9 +176,40 @@
       }
     }
 
-    window.onload = () => {
-      checkConnection();
-    };
+    async function submitDonation() {
+      const name = document.getElementById("name").value.trim();
+      const amount = parseFloat(document.getElementById("amount").value);
+      if (!name || isNaN(amount)) return alert("Lütfen geçerli bilgiler girin.");
+
+      const data = { name, amount };
+      try {
+        const res = await fetch("https://d9d1e2c8-aa05-4e56-a320-38768ad0fc5a-00-oi3hu86o9l96.sisko.replit.dev/donate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (res.ok) {
+          alert("Bağış kaydedildi ✅");
+          total += amount;
+          updateProgress();
+          document.getElementById("name").value = "";
+          document.getElementById("amount").value = "";
+        } else {
+          throw new Error();
+        }
+      } catch {
+        alert("Bağış gönderilemedi ❌");
+      }
+    }
+
+    function copyIBAN() {
+      const iban = document.getElementById("iban").textContent;
+      navigator.clipboard.writeText(iban)
+        .then(() => alert("IBAN kopyalandı 📋"))
+        .catch(() => alert("Kopyalama başarısız"));
+    }
+
+    window.onload = checkConnection;
   </script>
 </body>
 </html>
